@@ -1,43 +1,54 @@
-import random
 import sys
+from PySide6.QtWidgets import QApplication, QWidget, QPushButton
+from PySide6.QtCore import Qt, QMimeData
+from PySide6.QtGui import QDrag, QPixmap
 
-from PySide6.QtCore import Qt, Slot
-from PySide6.QtWidgets import (QApplication, QLabel, QPushButton,
-                               QVBoxLayout, QWidget)
+class Button(QPushButton):
+    def __init__(self, button_text, parent):
+        super().__init__(button_text, parent)
+        self.setStyleSheet('width: 200px; height: 50px; font-size: 30px')
 
+    def mouseMoveEvent(self, event):
+        if event.buttons() == Qt.LeftButton:
+            drag = QDrag(self)
+            mime = QMimeData()
+            drag.setMimeData(mime)
 
-class MyWidget(QWidget):
+            pixmap = QPixmap(self.size())
+            self.render(pixmap)
+            drag.setPixmap(pixmap)
+
+            drag.exec_(Qt.MoveAction)
+
+class AppDemo(QWidget):
     def __init__(self):
-        QWidget.__init__(self)
+        super().__init__()
+        self.resize(600, 400)
+        self.setAcceptDrops(True)
 
-        self.hello = [
-            "Hallo Welt",
-            "ä˝ ĺĽ˝ďźä¸ç",
-            "Hei maailma",
-            "Hola Mundo",
-            "ĐŃĐ¸Đ˛ĐľŃ ĐźĐ¸Ń",
-        ]
+        self.button = Button('My Button', self)
+        self.button.move(50, 50)
 
-        self.button = QPushButton("Click me!")
-        self.message = QLabel("Hello World")
-        self.message.alignment = Qt.AlignCenter
+        self.button2 = Button('My Button 2', self)
+        self.button2.move(100, 100)
 
-        self.layout = QVBoxLayout(self)
-        self.layout.addWidget(self.message)
-        self.layout.addWidget(self.button)
+    def dragEnterEvent(self, event):
+        event.accept()
 
-        # Connecting the signal
-        self.button.clicked.connect(self.magic)
+    def dropEvent(self, event):
+        position = event.pos()
+        widget = event.source()
+        widget.move(position)
+        event.accept()
 
-    @Slot()
-    def magic(self):
-        self.message.text = random.choice(self.hello)
+    # def dragMoveEvent(self, event):
+    #     position = event.pos()
+    #     widget = event.source()
+    #     widget.move(position)
+    #     event.accept()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app = QApplication(sys.argv)
-
-    widget = MyWidget()
-    widget.show()
-
-    sys.exit(app.exec())
+    demo = AppDemo()
+    demo.show()
+    sys.exit(app.exec_())
