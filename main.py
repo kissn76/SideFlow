@@ -47,6 +47,8 @@ class MainGraphicsView(QGraphicsView):
     def __init__(self, scene):
         super().__init__(scene=scene)
         # self.setDragMode(QGraphicsView.RubberBandDrag)
+        self.setMouseTracking(True)
+        self.mousePreseed = False
 
     # def mousePressEvent(self, event):
     #     print(event.pos())
