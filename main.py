@@ -24,6 +24,39 @@ class WidgetContainer(QPushButton):
     #     # updated_cursor_y = updated_cursor_position.y() - orig_cursor_position.y() + orig_position.y()
     #     self.i.setPos(event.pos().x(), event.pos().y())
 
+    def mousePressEvent(self, event):
+        print("mousePressEvent", event.pos())
+        if event.button() == Qt.LeftButton:
+            drag = QDrag(self)
+            mimeData = QMimeData()
+            drag.setMimeData(mimeData)
+            drag.exec(Qt.MoveAction)
+
+    def mouseReleaseEvent(self, event):
+        print("mouseReleaseEvent", event.pos())
+
+    def mouseReleaseEvent(self, event):
+        print("mouseReleaseEvent", event.pos())
+
+    def moveEvent(self, event):
+        print("moveEvent", event.pos())
+
+    def enterEvent(self, event):
+        print("enterEvent", event.pos())
+
+    def dragEnterEvent(self, event):
+        print("dragEnterEvent", event.pos())
+        event.accept()
+
+    def dragMoveEvent(self, event):
+        print("dragMoveEvent", event.pos())
+
+    def dragLeaveEvent(self, event):
+        print("dragLeaveEvent", event.pos())
+
+    def dropEvent(self, event):
+        print("dropEvent", event.pos())
+
 
 class Button(QPushButton):
     def __init__(self, text):
@@ -57,38 +90,38 @@ class MainGraphicsView(QGraphicsView):
     #     item.setPos(0,0)
     #     event.accept()
 
-    def mousePressEvent(self, event):
-        print("mousePressEvent", event.pos())
+    # def mousePressEvent(self, event):
+    #     print("mousePressEvent", event.pos())
 
-    def mouseReleaseEvent(self, event):
-        print("mouseReleaseEvent", event.pos())
+    # def mouseReleaseEvent(self, event):
+    #     print("mouseReleaseEvent", event.pos())
 
-    def mouseReleaseEvent(self, event):
-        print("mouseReleaseEvent", event.pos())
+    # def mouseReleaseEvent(self, event):
+    #     print("mouseReleaseEvent", event.pos())
 
-    def moveEvent(self, event):
-        print("moveEvent", event.pos())
+    # def moveEvent(self, event):
+    #     print("moveEvent", event.pos())
 
-    def enterEvent(self, event):
-        print("enterEvent", event.pos())
+    # def enterEvent(self, event):
+    #     print("enterEvent", event.pos())
 
     def dragEnterEvent(self, event):
         print("dragEnterEvent", event.pos())
 
-    def dragMoveEvent(self, event):
-        print("dragMoveEvent", event.pos())
+    # def dragMoveEvent(self, event):
+    #     print("dragMoveEvent", event.pos())
 
-    def dragLeaveEvent(self, event):
-        print("dragLeaveEvent", event.pos())
-        # if event.buttons() == Qt.LeftButton:
-        #     print(event.pos())
-        #     item = self.scene().itemAt(event.pos().x(), event.pos().y(), QTransform())
-        #     print("MainGraphicsView", item)
-        #     item.setPos(event.pos())
-        #     event.accept()
+    # def dragLeaveEvent(self, event):
+    #     print("dragLeaveEvent", event.pos())
+    #     if event.buttons() == Qt.LeftButton:
+    #         print(event.pos())
+    #         item = self.scene().itemAt(event.pos().x(), event.pos().y(), QTransform())
+    #         print("MainGraphicsView", item)
+    #         item.setPos(event.pos())
+    #         event.accept()
 
-    def dropEvent(self, event):
-        print("dropEvent", event.pos())
+    # def dropEvent(self, event):
+    #     print("dropEvent", event.pos())
 
 
 class MainGraphicsScene(QGraphicsScene):
