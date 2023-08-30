@@ -1,8 +1,7 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QMenuBar, QMenu, QFrame, QGraphicsScene, QGraphicsView, QGraphicsWidget, QGraphicsRectItem, QWidget, QPushButton, QHBoxLayout, QVBoxLayout
+from PySide6.QtWidgets import QApplication, QMainWindow, QMenuBar, QMenu, QFrame, QGraphicsScene, QGraphicsView, QGraphicsWidget, QGraphicsRectItem, QDockWidget, QSizePolicy, QWidget, QPushButton, QHBoxLayout, QVBoxLayout
 from PySide6.QtCore import Qt, QMimeData, QRandomGenerator, QPointF
 from PySide6.QtGui import QAction, QDrag, QPixmap, QIcon, QKeySequence, QColor, QTransform
-
 
 class WidgetContainer(QPushButton):
     def __init__(self, text):
@@ -80,11 +79,17 @@ class AppDemo(QMainWindow):
         # self.frame = QFrame()
         # self.setCentralWidget(self.frame)
 
+        dockWidget = QDockWidget("Dock Widget", self)
+        dockWidget.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
+        dockWidget.setWidget(QPushButton(text="Widget 1"))
+        self.addDockWidget(Qt.LeftDockWidgetArea, dockWidget)
+
         self.scene = MainGraphicsScene()
         self.view = MainGraphicsView(self.scene)
         self.setCentralWidget(self.view)
         # self.layout().addWidget(self.view)
-        self.view.setBackgroundBrush(Qt.yellow)
+        self.scene.setBackgroundBrush(Qt.green)
+        # self.view.setBackgroundBrush(Qt.yellow)
         self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)
 
         items = []
@@ -102,6 +107,7 @@ class AppDemo(QMainWindow):
         i2.setPos(100, 1000)
         i3.setPos(200, 200)
         # i4.setPos(50, 50)
+        print(self.view.rect(), self.scene.sceneRect())
 
         # self.widgetlist_layout = QVBoxLayout()
         # self.workboard_layout = QVBoxLayout()
